@@ -1,0 +1,212 @@
+class Noeud():
+    def __init__(self, valeur = None , suivant:'Noeud' = None ):
+        if suivant != None and type(suivant) != Noeud:
+            raise Exception("")
+        self.valeur = valeur
+        self.suivant = suivant
+        
+    def __repr__(self):
+        return "Noeud(" + self.valeur.__repr__() + "," +  self.suivant.__repr__()  + ")"
+    
+    def __str__(self):
+        if self.suivant == None:
+            return self.valeur.__str__()
+        else:
+            return self.suivant.__str__() + "," + self.valeur.__str__()
+        
+    def taille(self):
+        if self.suivant == None:
+            return 1
+        return 1 + self.suivant.taille()
+
+    def taille_V2(self):
+        """
+        Une variante de la fonction taille, avec une boucle.
+        """
+        noeud = self
+        compteur = 1
+        while noeud.suivant != None:
+            compteur = compteur + 1
+            noeud = noeud.suivant
+        return compteur
+
+class Pile:         #LIFO  
+    def __init__(self, premier = None):
+        if premier != None and type(premier) != Noeud:
+            raise Exception("")
+        self.premier = premier
+
+    def est_vide(self):
+        return self.premier == None
+
+    def ajouter_dessus(self, valeur):
+        self.premier = Noeud(valeur, self.premier)
+    
+    def prendre_dessus(self):
+        sauvegarde = self.premier.valeur
+        self.premier = self.premier.suivant
+        return sauvegarde
+          
+    def __str__(self):
+        if self.premier == None:
+            return "[]"
+        return "["+self.premier.__str__()+"]"
+    
+    def __repr__(self):
+        return 'Pile(' + self.premier.__repr__() + ')'
+        
+    
+
+class File:         #FIFO
+    def __init__(self, premier = None):
+        if premier != None and type(premier) != Noeud:
+            raise Exception("")
+        self.premier = premier
+
+    def est_vide(self):
+        return self.premier == None
+
+    def ajouter_dessus(self, valeur):
+        self.premier = Noeud(valeur, self.premier)
+ 
+    def prendre_dessous(self):
+        if self.est_vide():                     #La file est vide.
+            raise Exception("")
+        elif self.premier.suivant == None:      #La file ne contient qu'un élément.
+            valeur = self.premier.valeur
+            self.premier = None
+            return valeur
+        else:                                   #La file contient plusieurs éléments.
+            noeud = self.premier
+            while noeud.suivant.suivant != None:
+                noeud = noeud.suivant
+            valeur = noeud.suivant.valeur
+            noeud.suivant = None
+            return valeur
+   
+    def __str__(self):
+        if self.premier == None:
+            return "[]"
+        return "[" + self.premier.__str__() + "]"
+    
+    def __repr__(self):
+        return 'File(' + self.premier.__repr__() + ')'
+
+class Liste:        
+    def __init__(self, premier = None):
+        if premier != None and type(premier) != Noeud:
+            raise Exception("")
+        self.premier = premier
+
+    def est_vide(self):
+        return self.premier == None
+   
+    def __str__(self):
+        if self.premier == None:
+            return "[]"
+        return "[" + self.premier.__str__() + "]"
+    
+    def __repr__(self):
+        return 'Liste(' + self.premier.__repr__() + ')'
+    
+    def taille(self):
+        if self.est_vide():
+            return 0
+        return self.premier.taille()
+
+    def inserer(self, i:int, valeur):
+        if type(i) != int: raise Exception()
+        n = self.taille()
+        if i > n or i < 0:
+            raise Exception()
+        elif i == n:
+            self.premier = Noeud(valeur, self.premier)
+        else:
+            noeud = self.premier
+            while not (n == i+1):
+                noeud = noeud.suivant
+                n = n - 1
+            noeud.suivant = Noeud(valeur, noeud.suivant)
+
+    def supprimer(self, i:int):
+        if type(i) != int: 
+            raise Exception ()
+        n = self.taille()
+        if i >= n or n < 1:
+            raise Exception()
+        elif n == i+1:
+            self.premier = self.premier.suivant
+        else:
+            noeud = self.premier
+            while not (n == i+2):
+                noeud = noeud.suivant
+                n = n - 1
+            noeud.suivant = noeud.suivant.suivant
+
+    def __getitem__(self, i:int):
+        """Renvoie la valeur du Noeud d'indice i dans ma liste"""
+        # Controler les arguments si nécéssaire
+        if type(i) != int: 
+            raise Exception ()
+        n = self.taille()
+        if i >= n or n < 1:
+            raise Exception()
+        else:
+            rang = n - 1
+            noeud = self.premier
+            while rang != i:
+                rang = rang - 1
+                noeud = noeud.suivant
+            return noeud.valeur
+
+    def __setitem__(self, i:int, valeur):
+        """Modifie la valeur du Noeud d'indice i 
+        dans ma liste par la valeur en argument"""
+        # Controler les arguments si nécéssaire
+        if type(i) != int: 
+            raise Exception ()
+        n = self.taille()
+        if i >= n or n < 1:
+            raise Exception()
+        else:
+            rang = n - 1
+            noeud = self.premier
+            while rang != i:
+                rang = rang - 1
+                noeud = noeud.suivant
+            noeud.valeur = valeur
+
+    def max(self):
+        n = self.taille()
+        max = self.premier.valeur
+        noeud = self.premier
+        if self.premier == None:
+            raise Exception('Liste vide')
+        while noeud.suivant is not None:
+            if noeud.valeur > max:
+                max = self.premier.valeur
+                noeud = noeud.suivant
+            else:
+                noeud = noeud.suivant
+        return max
+    
+    def somme(self):
+        somme = 0
+        noeud = self.premier
+        while noeud != None:
+            somme += noeud.valeur
+            noeud = noeud.suivant
+        return somme
+    
+    
+    
+
+
+
+
+L = Liste()
+L.inserer(0,5)
+L.inserer(1,7)
+L.inserer(2,9)
+
+print(L.max())
