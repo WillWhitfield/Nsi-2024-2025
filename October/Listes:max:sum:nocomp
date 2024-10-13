@@ -197,12 +197,16 @@ class Liste:
             somme += noeud.valeur
             noeud = noeud.suivant
         return somme
-    
-    
-    
+
+    def max_comp(self):
+        return self.max()
+        #return self.premier.valeur for self.suivant in self
 
 
-
+    def somme_comp (self):
+        return self.somme()
+        #return nb for self.suivant in self
+    
 
 L = Liste()
 L.inserer(0,5)
