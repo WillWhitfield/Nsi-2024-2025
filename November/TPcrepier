@@ -1,0 +1,65 @@
+def creer_pile_vide():
+    return []
+
+def est_vide(x):
+    if not isinstance(x, list):
+        raise Exception("")
+    return x == []
+
+def empiler(x,y):
+    if not isinstance(x, list):
+        raise Exception("")
+    x.append(y)
+
+def depiler(x):
+    if not isinstance(x, list):
+        raise Exception("")
+    if len(x) == 0:
+        raise Exception("List is empty")
+    return x.pop()
+
+def hauteur_pile(x):
+    if not isinstance(x, list):
+        raise Exception('')
+    return len(x)
+
+def max_pile(x, i):
+    max = 0
+    max_index = 0
+    for j in range(len(x)-i,len(x)):
+        if x[j] > max:
+            max = x[j]
+            max_index = len(x) - j
+    return max_index
+
+def retourner(x,j):
+    svg = []
+    for i in range(len(x)-j,len(x)):
+        svg.append(x[i])
+    for i in range(j):
+        x.pop()
+    for i in range(j):
+        x.append(svg[len(svg)-i-1])
+    return x
+
+def tri_crepes(x):
+    y = len(x)
+    for i in range(len(x)):
+        retourner(retourner(x,max_pile(x,y)),y)
+        y -= 1
+
+
+    
+
+
+        
+
+P = [8,5,4,2,67,102]
+print(tri_crepes(P))
+'''
+print(P)
+Q = creer_pile_vide()
+while not est_vide(P):
+    empiler(Q, depiler(P))
+print(Q)
+'''
