@@ -18,6 +18,20 @@ def depiler(x):
         raise Exception("List is empty")
     return x.pop()
 
+"""
+def hauteur_pile(P):
+    Q = creer_pile_vide
+    n = 0
+    while not(est_vide(P)):
+        n += 1
+        x = depiler(P)
+        empiler(Q,x)
+    while not(est_vide(Q)):
+        x = depiler(Q)
+        empiler(P,x)
+    return n
+"""
+
 def hauteur_pile(x):
     if not isinstance(x, list):
         raise Exception('')
